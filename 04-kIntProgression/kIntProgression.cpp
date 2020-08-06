@@ -1,6 +1,7 @@
 #include <iostream>
-#include <algorithm>
+#include <cmath>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,32 +17,18 @@ int main(){
         digits.push_back(digit);
     }
 
-    vector<int> step_vec;
-    bool not_possible = false;
+    long long min_steps = 1000 * 1000 * 1000;
 
-    for (int inc = -1; inc <= 1; inc++) {
-        int steps = 0;
-        if(inc =! 0)
-            steps++;
-        int a0 = digits[0] + inc;
-        for (int i = 0 + 1; i < n; i++){
-            cout << "digit, a0: " << digits[i] << ", "<< a0 << "\n";
-            if(digits[i] == a0 + i * k)
-                continue;
-            else if(digits[i] - 1 == a0 + i * k || digits[i] + 1 == a0 + i * k)
-                steps++;
-            else{
-                not_possible = true;
-                break;
-            }
+    for (int a1 = -100000; a1 <= 100000; a1++){
+        long long steps = 0;
+        for (int i = 0; i < n; i++){
+            long long temp_steps = abs(digits[i] - (a1 + i * k));
+            steps += temp_steps;
         }
-        cout << steps << "\n";
-        if(not_possible == false)
-            step_vec.push_back(steps);
-    }
+        min_steps = min(steps, min_steps);
+        steps = 0;
+    } 
 
-    for (int i = 0; i < step_vec.size(); i++) {
-		cout << step_vec.at(i) << '|';
-	}
-    cout << (int) min_element(step_vec.begin(), step_vec.end());
+    cout << min_steps << '\n';
+    return 0;
 }
